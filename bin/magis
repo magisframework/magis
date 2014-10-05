@@ -66,10 +66,13 @@ when "new"
     end
   end
 when "setup"
-  ENV["ENVIRONMENT"]="setup"
+  ENV['RACK_ENV']="setup"
   exec("puma")
 when "server"
-  ENV["ENVIRONMENT"]="development"
+  ENV['RACK_ENV']="development"
+  exec("puma")
+when "test"
+  ENV['RACK_ENV']="test"
   exec("puma")
 else
   puts "Please pass an argument"

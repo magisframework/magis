@@ -1,5 +1,5 @@
 require 'simplecov'
-ENV["SPI_ENV"] = "test"
+ENV["RACK_ENV"] = "test"
 SimpleCov.start
 
 require 'bundler/setup'
@@ -28,11 +28,10 @@ yaml = YAML.load_file(File.dirname(__FILE__)  + "/support/omniauth_fb.yml")
 FBTether.store(yaml)
 
 
+
 Capybara.app = Magis.application
 
 include Capybara::DSL
-include RSpec::Matchers
-
 
 ENV['RACK_ENV'] = 'test'
 ENV['DB_NAME'] = "magisTestDB"
@@ -40,3 +39,14 @@ require 'magis'
 require 'test/unit'
 require 'rack/test'
 require 'webmock'
+
+require "capybara/poltergeist"
+
+Capybara.app = Api
+Capybara.javascript_driver = :poltergeist
+Capybara.register_driver :poltergeist do |app|
+  Capybara::Poltergeist::Driver.new(app)
+end
+
+# These two lines break the test.
+Capybara.app_host = "http://localhost:9292"

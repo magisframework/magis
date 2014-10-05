@@ -33,6 +33,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'simplecov', ['= 0.9.1']
   s.add_development_dependency 'webmock', ['= 01.19.0']
   s.add_development_dependency 'capybara', ['= 2.4.2']
-  s.add_development_dependency 'selenium-webdriver', ['= 2.43.0']       
+  s.add_development_dependency 'selenium-webdriver', ['= 2.43.0']   
+  s.add_development_dependency 'poltergeist', ['= 1.5.1'] 
   s.license     = 'MIT'
 end

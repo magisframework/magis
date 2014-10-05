@@ -19,6 +19,7 @@ gem 'koala'
 gem 'rspec'
 gem 'rack-test'
 gem 'simplecov', :require => false, :group => :test
+gem 'poltergeist'
 gem 'webmock'
 gem 'capybara'
 gem 'selenium-webdriver'

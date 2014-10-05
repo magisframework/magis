@@ -40,7 +40,7 @@ module Magis
   end
   
   def self.env
-    @@environment ||= ENV["ENVIRONMENT"]
+    @@environment ||= ENV['RACK_ENV']
     setup ||= @@environment == "setup"
     production ||= @@environment == "production"
     development ||= @@environment == "development"
