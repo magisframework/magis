@@ -2,7 +2,21 @@ Router = Object();
 Router.addRoute = function(name, callBack){
   return Finch.route(name, callBack);
 }
-Router.collection = function(target, collection){
+
+$.capsuleForm = (function(formName){
+  
+  $(document).on("click", "[data-name='"+formName+"'].form .submit", function(){
+    submitData = Object();
+    $form = $(this).parents(".form");
+    $form.find("input").each(function(i, input){
+      submitData[$(this).attr("name")] = $(this).val()
+    })
+    $.post("/api/collections/" + formName, {data: submitData})
+  })
+
+})
+
+function Page(target, collection){
   $.get("/pages/" + collection, function(data){
     $("body").append(data);
     Router.addRoute("/"+collection, function() {
@@ -21,31 +35,17 @@ View.cog = function(element, template, data){
 }
 
 View.render = function(target, templateName, url){
+  var defer = $.Deferred()
   collection =  App.collections[templateName] || (App.collections[templateName] = new Collection(templateName))
   collection.find().then(function(data){
     collection.data = data;
     customData = Object();
     customData[templateName] = collection.data;
     View.cog(target, $("[name='"+templateName+"']").html(), customData);
+    defer.resolve()
   });
+  return defer;
 }
-
-$.capsuleForm = (function(selector){
-  
-  $(document).on("click", selector + " .form .submit", function(){
-    submitData = Object();
-    $form = $(this).parents(".form");
-    key = $form.data("name");
-    submitData[key] = Object();
-    $form.find("input").each(function(i, input){
-      submitData[key][$(this).data("name")] = $(this).val()
-    })
-    formName = selector.replace(".", "");
-    $.post("/api/collections/" + formName, submitData)
-  })
-
-})
-
 
 App = Object();
 App.collections = Object();

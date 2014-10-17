@@ -8,7 +8,6 @@ $(document).on("click", ".magis-setup .next", function(){
     params[name][$(authInput).attr("name")] = $(authInput).val();
   })
 
-  console.log(params)
   $auth = $.post("/setup/"+name, params)
   $auth.then(function(response){
     $(".magis-setup").carousel('next')

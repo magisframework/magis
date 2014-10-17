@@ -27,7 +27,9 @@ class Collection
       id = user_access["id"]
       type = user_access["type"]
     end
-
+    puts "METHOD"
+    puts request.request_method
+    puts "METHOD END"
     if config["public"][request.request_method] || [request.request_method]
       true
     else

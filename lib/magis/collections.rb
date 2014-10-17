@@ -10,11 +10,10 @@ class Api < Sinatra::Base
   end
   
   post "/api/collections/:resource" do
-    resource = params[resource_name.singularize].to_hash
+    resource = params[:data].to_hash
     resource["userId"] = current_user["_id"]
     resourceId = current_resource.insert(resource)
     json = process_json current_resource.find("_id" => resourceId).to_a.first
-    faye_client.publish("/#{params[:resource]}/#{@collections[params[:resource].to_s]["watch"]}", 'json' => json )
   	json
   end
 
@@ -41,15 +40,13 @@ class Api < Sinatra::Base
   delete "/api/collections/:resource/:id" do
     oid = BSON::ObjectId.from_string(params[:id])
     json = process_json current_resource.remove({userId: current_user["_id"], "_id" => oid})
-    faye_client.publish("/#{params[:resource]}", 'json' => json )
   	json
   end
 
   put "/api/collections/:resource/:id" do
     oid = BSON::ObjectId.from_string(params[:id])
-    resource = params[resource_name.singularize].to_hash
+    resource = params[:data].to_hash
     json = process_json current_resource.update({"userId" => current_user["_id"], "_id" => oid}, {"$set" => resource})
-    faye_client.publish("/#{params[:resource]}", 'json' => json )
   	json
   end
 

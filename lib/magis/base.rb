@@ -77,7 +77,6 @@ module Magis
   end
 
   def self.load_collection(file)
-
     if File.exist?(home_folder + "/collections/" + file + ".yml")
       YAML.load_file(home_folder + "/collections/" + file + ".yml")
     else
